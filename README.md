@@ -4,15 +4,15 @@ Ferramenta web interna para centralizar o acompanhamento de onboarding de client
 
 ## Demo
 
-> **Link de produção:** adicione aqui a URL após deploy (Vercel/Netlify).  
-> Exemplo: `https://central-onboarding-maiver.vercel.app`
+**Link de produção:** [desafio-maiver.vercel.app](https://desafio-maiver.vercel.app/)
 
 ## Funcionalidades
 
 - **Cadastro de clientes** — empresa, contato, e-mail, telefone, plano, data de início e consultor
 - **Checklist fixo (6 etapas)** — marcar conclusão e registrar nota opcional por etapa
 - **Dashboard** — lista de clientes, barra de progresso, status (Em andamento / Concluído / Atrasado), filtro por consultor e contadores
-- **Persistência local** — dados salvos no `localStorage` do navegador
+- **Temas claro e escuro** — padrão escuro com identidade Maiver (preto, branco, verde `#00D26A`); alternância pelo botão no rodapé da sidebar; preferência salva no navegador
+- **Persistência local** — dados de clientes salvos no `localStorage` do navegador
 
 ### Regra de status
 
@@ -24,114 +24,46 @@ Ferramenta web interna para centralizar o acompanhamento de onboarding de client
 
 O status é **calculado em tempo real** (não é armazenado), evitando inconsistências.
 
+## Capturas de tela
+
+### Dashboard
+
+| Modo escuro | Modo claro |
+|-------------|------------|
+| ![Dashboard — modo escuro](docs/screenshots/dashboard-dark.png) | ![Dashboard — modo claro](docs/screenshots/dashboard-light.png) |
+
+### Cadastro de cliente
+
+| Modo escuro | Modo claro |
+|-------------|------------|
+| ![Cadastro — modo escuro](docs/screenshots/cadastro-dark.png) | ![Cadastro — modo claro](docs/screenshots/cadastro-light.png) |
+
+### Checklist de onboarding
+
+| Modo escuro | Modo claro |
+|-------------|------------|
+| ![Checklist — modo escuro](docs/screenshots/checklist-dark.png) | ![Checklist — modo claro](docs/screenshots/checklist-light.png) |
+
 ## Stack
 
 - React 19 + TypeScript
 - Vite 8
 - Tailwind CSS 4
-- **shadcn/ui** (padrão de componentes) + **CVA** + **tailwind-merge**
-- **Lucide React** (ícones)
-- **Radix UI** (checkbox, label, separator)
-- Zustand (estado global)
-- localStorage (persistência)
+- shadcn/ui, CVA, tailwind-merge, Lucide React, Radix UI
+- Zustand + localStorage
 
-## Design system
+Documentação visual do design system: [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md).
 
-Documentação completa em [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md).
-
-Resumo:
-- Tokens semânticos em `src/index.css` (primary, success, warning, muted…)
-- Componentes base em `src/components/ui/` (Button, Badge, Card, FormField…)
-- Layout operacional: sidebar (`AppShell`), métricas (`MetricCard`), checklist com timeline
-- Motion discreto com suporte a `prefers-reduced-motion`
-- Acessibilidade: skip link, landmarks, `aria-live` no toast, labels em cards e filtros
-
-## Como executar
+## Como executar localmente
 
 **Pré-requisitos:** Node.js 18+
 
 ```bash
-# Clonar o repositório
-git clone <url-do-repositorio>
-cd desafio-maiver
-
-# Instalar dependências
 npm install
-
-# Ambiente de desenvolvimento
 npm run dev
 ```
 
-Acesse `http://localhost:5173`.
-
-```bash
-# Build de produção
-npm run build
-
-# Preview local do build
-npm run preview
-```
-
-## Deploy (Vercel — recomendado)
-
-1. Envie o código para um repositório no GitHub
-2. Acesse [vercel.com](https://vercel.com) e importe o repositório
-3. Configuração detectada automaticamente (Vite):
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `dist`
-4. Clique em **Deploy**
-
-Alternativas: [Netlify](https://netlify.com) ou [GitHub Pages](https://pages.github.com) (projetos estáticos).
-
-## Arquitetura
-
-```
-src/
-├── components/       # UI reutilizável (layout, ui, clients, checklist, dashboard)
-├── pages/            # Telas (Dashboard, Formulário, Detalhe/Checklist)
-├── hooks/            # Efeitos e derivados (hydrate, filtros)
-├── services/         # Persistência (localStorage)
-├── store/            # Zustand (clientes, navegação, toast)
-├── types/            # Contratos TypeScript
-├── utils/            # Regras puras (status, progresso, validação)
-└── constants/        # Checklist, planos, consultores, chaves
-```
-
-### Decisões técnicas
-
-| Decisão | Motivo |
-|---------|--------|
-| Navegação por `AppView` no store | 3 telas — evita `react-router` desnecessário no MVP |
-| Status derivado | Fonte única de verdade no checklist + data de início |
-| Zustand + `saveClients` explícito | Persistência previsível, fácil de debugar |
-| Componentes `ui/` isolados | Telas enxutas; consistência visual |
-| Sem autenticação | Escopo do desafio; ferramenta interna simulada |
-
-### Fluxo de dados
-
-```
-Pages → Store (Zustand) → services/storage → localStorage
-              ↓
-           utils (status, progresso, validação)
-```
-
-## Capturas de tela
-
-Adicione imagens em `docs/screenshots/` e referencie aqui:
-
-| Tela | Arquivo sugerido |
-|------|------------------|
-| Dashboard | `docs/screenshots/dashboard.png` |
-| Cadastro | `docs/screenshots/cadastro.png` |
-| Checklist | `docs/screenshots/checklist.png` |
-
-## Estrutura de entrega (desafio)
-
-- [x] MVP funcional
-- [x] README com instruções
-- [x] Diário de Uso da IA (abaixo)
-- [ ] Link público de deploy (preencher após publicar)
-- [ ] Screenshots no README
+Acesse [http://localhost:5173](http://localhost:5173).
 
 ---
 
@@ -157,7 +89,7 @@ Documentação exigida pelo desafio Vibe Coding (20% da avaliação). Escrita de
 - **Copilot isolado:** redundante com o agente do Cursor para tarefas multi-arquivo e refatoração.
 - **Templates prontos (MUI, AdminLTE, etc.):** proibidos pelo desafio e contrários ao objetivo de mostrar direcionamento consciente da IA.
 
-**Estratégia que mais funcionou:** dois **prompts-mestre** (MVP + UI) + comandos curtos de continuação (`continuar etapa 2`, `continuar etapa 3`, `continuar etapa 4 UI`…), em vez de um único prompt pedindo o app inteiro.
+**Estratégia que mais funcionou:** dois **prompts-mestre** (MVP + UI) + comandos curtos de continuação por etapa, em vez de um único prompt pedindo o app inteiro.
 
 ---
 
@@ -175,7 +107,7 @@ Usei esse prompt no Cursor logo no início do desafio. Ele define o papel da IA 
 
 - Análise do PDF do desafio e proposta de arquitetura (navegação por `AppView` no store, status calculado, não persistido).
 - Etapa 1: scaffold, tipos, constants, utils (`status`, `progress`, `validation`), store Zustand, `localStorage`, layout base e páginas placeholder.
-- Etapas seguintes (após meus "continuar etapa N"): componentes UI, telas funcionais, toast, métricas, README.
+- Etapas seguintes (após continuação por etapa): componentes UI, telas funcionais, toast, métricas, README.
 
 **Funcionou de primeira?**
 
@@ -208,19 +140,9 @@ Após o MVP funcional, enviei este segundo prompt-mestre pedindo evolução de U
 
 **Funcionou de primeira?**
 
-- Design system e layout: sim, com iterações por etapa (`continuar etapa 4 UI`, etc.).
+- Design system e layout: sim, com iterações por etapa.
 - **UX copy:** a IA incluiu muitas descrições explicativas sob títulos. **Critiquei e simplifiquei** — ferramentas internas costumam ter só título ou metadado contextual, não parágrafo tutorial.
 - **Espaçamento:** precisei pedir ajustes explícitos entre título e conteúdo.
-
-**Comandos curtos que funcionaram bem**
-
-- `continuar etapa 2` → componentes base
-- `continuar etapa 3` → telas + regras de negócio
-- `continuar etapa 4 UI` → checklist + formulário em seções
-- `continuar etapa 5 UI` → skeletons e motion
-- `continuar etapa 6 UI` → a11y e polimento
-
-Esses prompts curtos funcionaram porque o **prompt-mestre já tinha definido o contrato** (stack, tom, etapas, o que evitar).
 
 ---
 
@@ -231,6 +153,16 @@ Esses prompts curtos funcionaram porque o **prompt-mestre já tinha definido o c
 **Gerou:** `utils/phone.ts` com `(11) 99999-9999`, validação 10/11 dígitos, integração no formulário.
 
 **Funcionou de primeira?** Sim.
+
+---
+
+#### Prompt 4 — Identidade Maiver + temas claro/escuro
+
+Pedidos em iterações no Cursor: alinhar UI à marca Maiver (logo, verde `#00D26A`, sidebar), implementar **modo escuro (padrão)** e **modo claro** com botão no rodapé da sidebar, manter cores semânticas dos status e ajustar legibilidade do texto “Atrasado” no escuro.
+
+**Gerou:** tokens em `src/index.css`, `MaiverLogo`, `ThemeToggle`, `themeStore`, `class="dark"` no `index.html` + `initTheme()`, versões do logo para fundo claro/escuro.
+
+**Funcionou de primeira?** Em partes — houve iteração (sidebar preta vs clara, hover verde no modo claro, remoção do script inline no HTML em favor de `class="dark"` + `initTheme()`).
 
 ---
 
@@ -269,7 +201,6 @@ O MVP começou com componentes UI simples; depois migrou para shadcn. Risco de d
 | **Gráficos / analytics** | PDF valoriza clareza; métricas em cards são suficientes |
 | **Testes automatizados** | Prazo do desafio; regras isoladas em `utils/` para testar depois |
 | **Descrições longas na UI** | Reduzem escaneabilidade; padrão de SaaS interno é título direto |
-| **Dark mode** | Escopo extra; tokens CSS já permitem evolução futura |
 
 ---
 
@@ -291,8 +222,6 @@ O MVP começou com componentes UI simples; depois migrou para shadcn. Risco de d
 - Consultores em **lista fixa** (sem CRUD de equipe).
 - Sem **auditoria** de quem alterou qual etapa.
 - Sem **colaboração simultânea** entre consultores.
-
-Documentação visual: [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md).
 
 ---
 

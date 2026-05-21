@@ -2,27 +2,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Maiver brand (compartilhado entre temas) */
 :root {
+  --maiver-green: 152 100% 41%;
+  --maiver-black: 0 0% 0%;
+  --maiver-white: 0 0% 100%;
   --radius: 0.5rem;
-  --background: 0 0% 100%;
+}
+
+/* Modo claro — cores alternativas */
+:root {
+  --background: var(--maiver-white);
   --foreground: 222.2 47.4% 11.2%;
-  --card: 0 0% 100%;
+  --card: var(--maiver-white);
   --card-foreground: 222.2 47.4% 11.2%;
-  --popover: 0 0% 100%;
+  --popover: var(--maiver-white);
   --popover-foreground: 222.2 47.4% 11.2%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
+  --primary: var(--maiver-green);
+  --primary-foreground: var(--maiver-white);
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
   --muted: 210 40% 96.1%;
   --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  --accent: 152 60% 94%;
+  --accent-foreground: 152 80% 22%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
+  --ring: var(--maiver-green);
   --success: 142.1 76.2% 36.3%;
   --success-foreground: 355.7 100% 97.3%;
   --warning: 38 92% 50%;
@@ -33,6 +41,43 @@
   --sidebar-foreground: 222.2 47.4% 11.2%;
   --sidebar-border: 214.3 31.8% 91.4%;
   --sidebar-accent: 210 40% 96.1%;
+  --shell: 210 40% 96.1%;
+  color-scheme: light;
+}
+
+/* Modo escuro — Maiver (padrão) */
+.dark {
+  --background: 0 0% 4%;
+  --foreground: var(--maiver-white);
+  --card: 0 0% 8%;
+  --card-foreground: var(--maiver-white);
+  --popover: 0 0% 8%;
+  --popover-foreground: var(--maiver-white);
+  --primary: var(--maiver-green);
+  --primary-foreground: var(--maiver-black);
+  --secondary: 0 0% 14%;
+  --secondary-foreground: var(--maiver-white);
+  --muted: 0 0% 12%;
+  --muted-foreground: 0 0% 58%;
+  --accent: 152 40% 14%;
+  --accent-foreground: 152 80% 75%;
+  --destructive: 0 62.8% 50.6%;
+  --destructive-foreground: var(--maiver-white);
+  --border: 0 0% 18%;
+  --input: 0 0% 18%;
+  --ring: var(--maiver-green);
+  --success: 142.1 70% 42%;
+  --success-foreground: 355.7 100% 97.3%;
+  --warning: 38 100% 68%;
+  --warning-foreground: 38 95% 88%;
+  --info: 221.2 83.2% 58%;
+  --info-foreground: 210 40% 98%;
+  --sidebar: var(--maiver-black);
+  --sidebar-foreground: var(--maiver-white);
+  --sidebar-border: 0 0% 16%;
+  --sidebar-accent: 0 0% 12%;
+  --shell: 0 0% 6%;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -70,6 +115,8 @@
   --color-sidebar-foreground: hsl(var(--sidebar-foreground));
   --color-sidebar-border: hsl(var(--sidebar-border));
   --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-shell: hsl(var(--shell));
+  --color-maiver-green: hsl(var(--maiver-green));
 }
 
 @layer base {
@@ -92,6 +139,32 @@
   h3 {
     text-wrap: balance;
   }
+
+  select.form-select,
+  select.form-select option {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  .dark select.form-select,
+  .dark select.form-select option {
+    background-color: hsl(var(--card));
+    color: hsl(var(--foreground));
+  }
+
+  select.form-select {
+    color-scheme: light;
+  }
+
+  .dark select.form-select {
+    color-scheme: dark;
+  }
+
+  .dark input[type='date'],
+  .dark input[type='datetime-local'],
+  .dark input[type='time'] {
+    color-scheme: dark;
+  }
 }
 
 @layer utilities {
@@ -106,12 +179,24 @@
   .interactive-card {
     @apply transition-[border-color,box-shadow,background-color] duration-200 ease-out;
     @apply hover:border-primary/25 hover:shadow-sm;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 
   .nav-item {
     @apply transition-colors duration-150 ease-out;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar;
+  }
+
+  /* Sidebar: hover verde Maiver no modo claro */
+  .nav-item-sidebar {
+    @apply text-muted-foreground;
+    @apply hover:bg-primary/10 hover:text-primary;
+    @apply dark:hover:bg-primary/15 dark:hover:text-primary;
+  }
+
+  .nav-item-sidebar-active {
+    @apply bg-primary/10 text-primary shadow-sm;
+    @apply dark:bg-primary/15 dark:text-primary;
   }
 }
 

@@ -1,6 +1,42 @@
 # Design System — Central de Onboarding Maiver
 
-Guia visual e de componentes do MVP. Objetivo: interface operacional moderna (referência: Linear, Vercel Dashboard), sem excesso decorativo.
+Guia visual e de componentes do MVP. Identidade alinhada à [Maiver](https://maiver.com.br): preto, branco e verde, com wordmark oficial.
+
+## Identidade Maiver
+
+### Paleta
+
+| Nome | Hex | Token CSS | Uso |
+|------|-----|-----------|-----|
+| Maiver Green | `#00D26A` | `--maiver-green` / `--primary` | CTAs, progresso, foco, item ativo na sidebar |
+| Maiver Black | `#000000` | `--maiver-black` / `--foreground` | Texto principal, sidebar, header mobile |
+| Maiver White | `#FFFFFF` | `--maiver-white` / `--background` | Área de conteúdo, texto em fundos escuros |
+| Cinza UI | `#E5E5E5` | `--border` | Bordas e inputs |
+| Verde suave | — | `--accent` | Hover secundário, fundos de destaque leve |
+
+### Logo
+
+- Wordmark: `public/maiver-logo.svg` — componente `MaiverLogo`
+- Símbolo M: `public/maiver-mark.svg` — `MaiverLogo variant="mark"`
+- Favicon: `public/favicon.svg` (M em fundo preto)
+
+### Temas (claro / escuro)
+
+| Modo | Padrão | Descrição |
+|------|--------|-----------|
+| **Escuro** | Sim (`localStorage`: `maiver-theme`) | Fundo preto/cinza, sidebar preta, logo claro, verde Maiver nos CTAs |
+| **Claro** | Alternativo | Fundo branco, sidebar clara, logo escuro, hover da sidebar em verde Maiver |
+
+Alternância: botão na sidebar (desktop) e ícone sol/lua no header mobile. Classe `dark` em `<html>`.
+
+Utilitários de navegação: `nav-item-sidebar`, `nav-item-sidebar-active` em `index.css`.
+
+### Layout de marca
+
+- **Sidebar:** tokens `--sidebar*`; hover/active com verde `primary` em ambos os modos
+- **Conteúdo:** `--background` / `--card` por tema
+- **Status (métricas/badges/barras):** azul (em andamento), verde (concluído), âmbar (atrasado)
+- **CTAs e foco:** verde Maiver (`--primary`) em ambos os temas
 
 ## Princípios
 
@@ -16,7 +52,8 @@ Definidos em `src/index.css` (variáveis CSS + `@theme inline`).
 
 | Token | Uso |
 |-------|-----|
-| `--primary` | Ações principais, progresso em andamento |
+| `--primary` | Verde Maiver — ações principais, progresso em andamento |
+| `--maiver-green` | Cor de marca (alias de primary) |
 | `--success` | Etapas concluídas, status OK |
 | `--warning` | Onboarding atrasado (>30 dias) |
 | `--muted` | Fundos secundários, texto auxiliar |
@@ -27,7 +64,7 @@ Definidos em `src/index.css` (variáveis CSS + `@theme inline`).
 
 | Status | Badge | Barra de progresso |
 |--------|-------|-------------------|
-| Em andamento | `info` | `bg-primary` |
+| Em andamento | `info` | `bg-info` |
 | Concluído | `success` | `bg-success` |
 | Atrasado | `warning` | `bg-warning` |
 

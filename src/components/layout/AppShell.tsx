@@ -1,10 +1,7 @@
-import {
-  ClipboardList,
-  LayoutDashboard,
-  Plus,
-  Users,
-} from 'lucide-react'
+import { LayoutDashboard, Plus, Users } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { MaiverLogo } from '@/components/brand/MaiverLogo'
+import { ThemeToggle } from '@/components/layout/ThemeToggle'
 import type { AppView } from '@/types/app'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
@@ -49,7 +46,7 @@ export function AppShell({
       : `${clientsCount} clientes ativos`
 
   return (
-    <div className="flex min-h-screen bg-muted/30">
+    <div className="flex min-h-screen bg-shell/80">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
@@ -61,21 +58,11 @@ export function AppShell({
         className="hidden w-56 shrink-0 flex-col border-r border-sidebar-border bg-sidebar md:flex"
         aria-label="Navegação principal"
       >
-        <div className="flex h-14 items-center gap-2 border-b border-sidebar-border px-4">
-          <div
-            className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground"
-            aria-hidden
-          >
-            <ClipboardList className="size-4" strokeWidth={2.5} />
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-sidebar-foreground">
-              Maiver
-            </p>
-            <p className="truncate text-[11px] text-muted-foreground">
-              Onboarding
-            </p>
-          </div>
+        <div className="flex h-14 flex-col justify-center gap-0.5 border-b border-sidebar-border px-4">
+          <MaiverLogo className="h-5" />
+          <p className="text-[11px] text-muted-foreground dark:text-sidebar-foreground/60">
+            Onboarding
+          </p>
         </div>
 
         <nav className="flex flex-1 flex-col gap-1 p-3" aria-label="Menu">
@@ -88,10 +75,8 @@ export function AppShell({
                 type="button"
                 onClick={() => navigate(view)}
                 className={cn(
-                  'nav-item flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium',
-                  active
-                    ? 'bg-sidebar-accent text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:bg-sidebar-accent/60 hover:text-foreground',
+                  'nav-item nav-item-sidebar flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium',
+                  active && 'nav-item-sidebar-active',
                 )}
                 aria-current={active ? 'page' : undefined}
               >
@@ -102,14 +87,15 @@ export function AppShell({
           })}
         </nav>
 
-        <div className="border-t border-sidebar-border p-3">
+        <div className="mt-auto border-t border-sidebar-border p-3">
           <div
-            className="flex items-center gap-2 rounded-md bg-muted/60 px-3 py-2 text-xs text-muted-foreground"
+            className="mb-2 flex items-center gap-2 rounded-md bg-muted/60 px-3 py-2 text-xs text-muted-foreground dark:bg-sidebar-accent dark:text-sidebar-foreground/70"
             aria-live="polite"
           >
             <Users className="size-3.5 shrink-0" aria-hidden />
             <span>{clientsLabel}</span>
           </div>
+          <ThemeToggle />
         </div>
       </aside>
 
@@ -120,9 +106,7 @@ export function AppShell({
             onClick={onNavigateDashboard}
             className="nav-item rounded-md text-left"
           >
-            <p className="text-sm font-semibold text-foreground">
-              Central de Onboarding
-            </p>
+            <MaiverLogo className="h-5" />
           </button>
           <div className="flex items-center gap-2" aria-label="Ações mobile">
             {currentView === 'new-client' ? (

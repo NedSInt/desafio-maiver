@@ -9,7 +9,7 @@ export const STATUS_BADGE_VARIANT: Record<OnboardingStatus, StatusBadgeVariant> 
 }
 
 export const STATUS_PROGRESS_CLASS: Record<OnboardingStatus, string> = {
-  em_andamento: 'bg-primary',
+  em_andamento: 'bg-info',
   concluido: 'bg-success',
   atrasado: 'bg-warning',
 }

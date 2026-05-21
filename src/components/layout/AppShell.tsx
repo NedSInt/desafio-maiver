@@ -109,6 +109,7 @@ export function AppShell({
             <MaiverLogo className="h-5" />
           </button>
           <div className="flex items-center gap-2" aria-label="Ações mobile">
+            <ThemeToggle variant="icon" />
             {currentView === 'new-client' ? (
               <Button
                 variant="secondary"

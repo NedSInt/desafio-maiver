@@ -1,0 +1,1 @@
+export const ONBOARDING_DELAY_DAYS = 30
